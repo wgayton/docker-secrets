@@ -1,5 +1,5 @@
 # docker-secrets
-A small library for loading [Docker Secrets] (https://docs.docker.com/engine/swarm/secrets/)
+A small library for loading [Docker Secrets](https://docs.docker.com/engine/swarm/secrets/)
 
 [![Build Status](https://travis-ci.org/Hazz223/docker-secrets.svg?branch=master)](https://travis-ci.org/Hazz223/docker-secrets)
 
