@@ -16,14 +16,28 @@ public class DockerSecretsLoader {
     private final String secretsRootFolder;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    /**
+     * The path to the directory where the Docker Secrets are loaded.
+     * @param rootFolder
+     */
     public DockerSecretsLoader(String rootFolder) {
         this.secretsRootFolder = rootFolder;
     }
 
+    /**
+     * Default constructor. The Default location for Docker Secrets is defined by the Docker documentation.
+     * The default it '/run/secrets/'
+     */
     public DockerSecretsLoader() {
         this.secretsRootFolder = "/run/secrets/";
     }
 
+
+    /**
+     * Will load all secrets into a HashMap. If the Root folder isn't found, or there are no files in the Root folder, then
+     * no secrets will be loaded, and a log message will be produced.
+     * @return A map of the secrets found in a folder, where the key is the name of the file, and the value is the secret
+     */
     public Map<String, String> loadAsMap() {
 
         Map<String, String> secretsMap = new HashMap<>();
