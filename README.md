@@ -11,23 +11,20 @@ you grab and import the project as an artifact from Github.
 
 You'll need to add `jitpack` to your repository list in gradle.
 ```groovy
-
 allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
-
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
 ```
 
 and you'll need to add the dependency:
 
 ```groovy 
 dependencies {
-	        compile 'com.github.Hazz223:docker-secrets:X.X.X'
-	}
-	
+    compile 'com.github.Hazz223:docker-secrets:X.X.X'
+}
 ```
 
 ### Using the Project
