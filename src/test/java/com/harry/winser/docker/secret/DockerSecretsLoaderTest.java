@@ -1,9 +1,11 @@
 package com.harry.winser.docker.secret;
 
+import com.harry.winser.docker.secrets.DockerSecretsException;
 import com.harry.winser.docker.secrets.DockerSecretsLoader;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
@@ -19,6 +21,8 @@ public class DockerSecretsLoaderTest {
 
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     private DockerSecretsLoader dockerSecretsLoader;
 
@@ -30,39 +34,49 @@ public class DockerSecretsLoaderTest {
     }
 
     @Test
-    public void shouldLoadSecretsFromFolder() throws IOException {
+    public void shouldLoadSecretsFromFolder() throws IOException, DockerSecretsException {
 
         Map<String, String> expectedSecrets = this.givenTwoSecrets();
 
         Map<String, String> actualSecrets = this.dockerSecretsLoader.loadAsMap();
-
         assertThat(actualSecrets).containsAllEntriesOf(expectedSecrets);
     }
 
     @Test
-    public void shouldLoadSecretsWhenFilesAreEmptyEmpty() throws IOException {
+    public void shouldLoadSecretsWhenFilesAreEmptyEmpty() throws IOException, DockerSecretsException {
 
         Map<String, String> expectedSecrets = this.givenTwoEmptySecretFiles();
 
         Map<String, String> actualSecrets = this.dockerSecretsLoader.loadAsMap();
-
         assertThat(actualSecrets).containsAllEntriesOf(expectedSecrets);
     }
 
     @Test
-    public void shouldReturnEmptySetWhenNoSecretFilesFound() {
+    public void shouldThrowExceptionWhenEmptyRootFolder() throws DockerSecretsException {
 
-        Map<String, String> actualSecrets = this.dockerSecretsLoader.loadAsMap();
-        assertThat(actualSecrets).isEmpty();
+        this.thrown.expect(DockerSecretsException.class);
+        this.thrown.expectMessage("No files found for given Secrets folder: " + this.tempFolder.getRoot());
+        this.dockerSecretsLoader.loadAsMap();
     }
 
     @Test
-    public void shouldReturnEmptyWhenSecretsFolderNotFound() {
+    public void shouldThrowExceptionWhenRootFolderNotFound() throws DockerSecretsException {
 
-        this.dockerSecretsLoader = new DockerSecretsLoader("does not exist");
+        String folderNotThere = "does not exist";
+        this.dockerSecretsLoader = new DockerSecretsLoader(folderNotThere);
 
-        Map<String, String> actualSecrets = this.dockerSecretsLoader.loadAsMap();
-        assertThat(actualSecrets).isEmpty();
+        this.thrown.expect(DockerSecretsException.class);
+        this.thrown.expectMessage("Given secrets folder not found (" + folderNotThere + "). Will not load secrets");
+        this.dockerSecretsLoader.loadAsMap();
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenSecretsFileNotReadable() throws IOException, DockerSecretsException {
+
+        File notReadable = this.givenSecretsFileThatIsNotReadable();
+        this.thrown.expect(DockerSecretsException.class);
+        this.thrown.expectMessage("Failed to load Secret from file " + notReadable.getName());
+        this.dockerSecretsLoader.loadAsMap();
     }
 
     private Map<String, String> givenTwoSecrets() throws IOException {
@@ -97,5 +111,13 @@ public class DockerSecretsLoaderTest {
         expectedMap.put(secondSecretFileName, "");
 
         return expectedMap;
+    }
+
+    private File givenSecretsFileThatIsNotReadable() throws IOException {
+        String firstSecretFileName = "First Secret";
+        File secretFile = this.tempFolder.newFile(firstSecretFileName);
+        secretFile.setReadable(false);
+
+        return secretFile;
     }
 }
