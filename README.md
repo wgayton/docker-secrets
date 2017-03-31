@@ -2,6 +2,7 @@
 A small library for loading [Docker Secrets](https://docs.docker.com/engine/swarm/secrets/)
 
 [![Build Status](https://travis-ci.org/Hazz223/docker-secrets.svg?branch=master)](https://travis-ci.org/Hazz223/docker-secrets)
+[![](https://jitpack.io/v/Hazz223/docker-secrets.svg)](https://jitpack.io/#Hazz223/docker-secrets)
 
 ## Importing and Using
 
@@ -39,7 +40,7 @@ If it fails to find the root folder, or there are no secrets in this folder, or 
 `DockerSecretsException` is thrown. 
 
 ## Requirements 
-There are no external dependencies for this project. And i plan to keep it that way!
+There are no external requirements for the project, however it is currently Java 8 only. 
 
 ## About
 This project arose because i needed an easy to way to get Docker Secrets loaded into a Springboot project.
