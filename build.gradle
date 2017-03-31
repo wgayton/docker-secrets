@@ -3,9 +3,16 @@ version '0.0.1'
 
 apply plugin: 'java'
 apply plugin: 'java-library'
+apply plugin: 'maven-publish'
 
 
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allJava
+}
 
 repositories {
     mavenCentral()
@@ -14,4 +21,44 @@ repositories {
 dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:3.6.2'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId jar.baseName
+
+            from components.java
+            artifact sourcesJar
+
+            pom.withXml {
+                asNode().children().last() + {
+                    resolveStrategy = Closure.DELEGATE_FIRST
+                    url 'https://github.com/Hazz223/docker-secrets'
+                    scm {
+                        url 'https://github.com/Hazz223/docker-secrets'
+                        connection 'https://github.com/Hazz223/docker-secrets.git'
+                    }
+                    licenses {
+                        license {
+                            name 'The Apache Software License, Version 2.0'
+                            url 'http://www.apache.org/license/LICENSE-2.0.txt'
+                            distribution 'repo'
+                        }
+                    }
+                    organization {
+                        name 'Harry Winser'
+                        url 'harrywinser.com'
+                    }
+                    developers {
+                        developer {
+                            id 'harrywisner'
+                            name 'Harry Winser'
+                            email 'harrywinser@hotmail.co.uk'
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
