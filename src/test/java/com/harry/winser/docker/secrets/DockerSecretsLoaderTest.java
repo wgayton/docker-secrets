@@ -53,9 +53,9 @@ public class DockerSecretsLoaderTest {
 
         Map<String, String> expected = this.givenTwoSecrets();
 
-        Properties properties = this.dockerSecretsLoader.loadAsProperties();
+        Properties actual = this.dockerSecretsLoader.loadAsProperties();
 
-        assertThat(properties).containsAllEntriesOf(expected);
+        assertThat(actual).containsAllEntriesOf(expected);
     }
 
     private Map<String, String> givenTwoSecrets() throws IOException {
