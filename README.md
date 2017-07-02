@@ -62,14 +62,14 @@ public class SecretsConfiguration {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @PostConstruct
-    public void loadScrets(){
+    @PostConstruct // run this block as soon as the app starts
+    public void loadSecrets(){
 
         try{
-            Map<String, String> dockerSecrets = DockerSecretsLoaderBuilder.build().loadAsMap();
-            dockerSecrets.forEach(System::setProperty);
+            Map<String, String> dockerSecrets = DockerSecretsLoaderBuilder.build().loadAsMap(); // load all the secrets
+            dockerSecrets.forEach(System::setProperty); // put them all into the system properties
         } catch (DockerSecretsException ex){
-            log.warn("Failed to load secrets", ex);
+            log.warn("Failed to load secrets", ex); // log failure. Though you can also fail the project start instead.
         }
     }
 }
