@@ -1,7 +1,7 @@
 package com.harry.winser.docker.secrets;
 
 
-public class DockerSecretsException extends Exception {
+public class DockerSecretsException extends RuntimeException {
 
     public DockerSecretsException(String message) {
         super(message);

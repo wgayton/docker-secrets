@@ -1,4 +1,4 @@
-package com.harry.winser.docker.secrets;
+package com.harry.winser.docker.secrets.internal;
 
 
 import java.util.Objects;
