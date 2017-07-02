@@ -23,13 +23,6 @@ public class DockerSecretsLoaderImpl implements DockerSecretsLoader {
         this.secretsRootFolder = secretsRootFolder;
     }
 
-    /**
-     * Will load all secrets into a HashMap. If the Root folder isn't found, or there are no files in the Root folder, then
-     * no secrets will be loaded, and a log message will be produced.
-     *
-     * @return A map of the secrets where the file name is the key, and the secrets is the value
-     * @throws DockerSecretsException when the root folder can't be found, or when no files found, or when fails to read a secrets
-     */
     public Map<String, String> loadAsMap() throws DockerSecretsException {
 
         return this.getSecrets()

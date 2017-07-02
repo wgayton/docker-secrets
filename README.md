@@ -3,6 +3,7 @@ A small library for loading [Docker Secrets](https://docs.docker.com/engine/swar
 
 [![Build Status](https://travis-ci.org/Hazz223/docker-secrets.svg?branch=master)](https://travis-ci.org/Hazz223/docker-secrets)
 [![](https://jitpack.io/v/Hazz223/docker-secrets.svg)](https://jitpack.io/#Hazz223/docker-secrets)
+[![Apache 2.0](https://img.shields.io/badge/license-apache--2.0-lightgrey.svg)](https://www.apache.org/licenses/LICENSE-2.0) 
 
 ## Importing and Using
 
@@ -30,22 +31,56 @@ dependencies {
 
 ### Using the Project
 
-Once you've imported the project, you can create an instance of `DockerSecretsLoader`. Unless a new path is given to the
-Constructor, it will default to the standard location for Docker Secrets. 
+Once the project has been imported, call the `DockerSecretsLoaderBuilder.builder()`, which will return an instance of the builder.
+For the defaults, use this line: `DockerSecretsLoaderBuilder.builder().build()`. This will expect secrets to be kept in the default
+location - `/run/secrets/`
 
-Calling `loadAsMap()` will load all of the files in the defined secrets location, and then read their content. It will create
-a map where there Key is the file name, and the Value is the the secrets value.
+The Loader can also be customised:
+- Calling `.withSecretFolder("my customer secret folder"")` will allow a defined secrets location
+- Calling `withFileLoader(mySpecialFileLoader)` will enable the functionality to pass a custom implementation of `DockerSecretsFileLoader`,
+ if the default one does not suffice.
 
-If it fails to find the root folder, or there are no secrets in this folder, or a secret can't be read, then a 
-`DockerSecretsException` is thrown. 
+After any/all of the above, `.build()` needs to be called to return an instance of `DockerSecretsLoader`.
+
+
+### Methods
+Two methods are available:
+- `loadAsMap()`
+- `loadAsProperties()`
+Where the key is the secret file name, and the value is the secret files content.  
+
+If the secrets folder directory is empty, a `DockerSecretsException` is thrown.
+If any of the secret files can't be read, a `DockerSecretsException` is thrown.
+
+
+### Use with Spring Boot
+I've had a few requests on how to use the project with Spring Boot. Here's a current working example:
+
+```Java
+@Configuration
+public class SecretsConfiguration {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+
+    @PostConstruct
+    public void loadScrets(){
+
+        try{
+            Map<String, String> dockerSecrets = DockerSecretsLoaderBuilder.build().loadAsMap();
+            dockerSecrets.forEach(System::setProperty);
+        } catch (DockerSecretsException ex){
+            log.warn("Failed to load secrets", ex);
+        }
+    }
+}
+```
 
 ## Requirements 
 There are no external requirements for the project, however it is currently Java 8 only. 
-
-## About
-This project arose because i needed an easy to way to get Docker Secrets loaded into a Springboot project.
-However, i extracted all of the Spring stuff out of it, and moved it into a small library for everyone to enjoy!
  
 ## Contributing
 If you'd like to add more to this project, please fork the project and submit a pull request. You can also contact me 
 on [twitter](https://twitter.com/Hazz223).
+
+## Licence
+This is under the Apache 2.0 licence. More info can be found [here]()
