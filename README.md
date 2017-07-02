@@ -83,4 +83,4 @@ If you'd like to add more to this project, please fork the project and submit a 
 on [twitter](https://twitter.com/Hazz223).
 
 ## Licence
-This is under the Apache 2.0 licence. More info can be found [here]()
+This is under the Apache 2.0 license. More info can be found [here](https://github.com/Hazz223/docker-secrets/blob/master/LICENCE.md)
