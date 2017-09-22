@@ -1,6 +1,6 @@
-package com.harry.winser.docker.secrets.internal;
+package io.metro.docker.secrets.internal;
 
-import com.harry.winser.docker.secrets.DockerSecretsException;
+import io.metro.docker.secrets.DockerSecretsException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 public class FileToDockerSecretConverterTest {
 
@@ -32,9 +32,9 @@ public class FileToDockerSecretConverterTest {
 
         File secretFile = this.givenSecretFile();
 
-        DockerSecret actual = this.converter.convert(secretFile);
-        assertThat(actual.getName()).isEqualTo("first-secrets");
-        assertThat(actual.getValue()).isEqualTo("first-secrets-code");
+        io.metro.docker.secrets.internal.DockerSecret actual = this.converter.convert(secretFile);
+        assertEquals(actual.getName(), "first-secrets");
+        assertEquals(actual.getValue(),"first-secrets-code");
     }
 
     @Test

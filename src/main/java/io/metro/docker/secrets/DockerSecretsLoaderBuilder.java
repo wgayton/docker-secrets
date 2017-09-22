@@ -1,9 +1,9 @@
-package com.harry.winser.docker.secrets;
+package io.metro.docker.secrets;
 
 
-import com.harry.winser.docker.secrets.internal.DockerSecretsFileLoaderImpl;
-import com.harry.winser.docker.secrets.internal.DockerSecretsLoaderImpl;
-import com.harry.winser.docker.secrets.internal.FileToDockerSecretConverter;
+import io.metro.docker.secrets.internal.DockerSecretsFileLoaderImpl;
+import io.metro.docker.secrets.internal.DockerSecretsLoaderImpl;
+import io.metro.docker.secrets.internal.FileToDockerSecretConverter;
 
 public class DockerSecretsLoaderBuilder {
 

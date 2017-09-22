@@ -1,8 +1,8 @@
-package com.harry.winser.docker.secrets.internal;
+package io.metro.docker.secrets.internal;
 
-import com.harry.winser.docker.secrets.DockerSecretsException;
-import com.harry.winser.docker.secrets.DockerSecretsFileLoader;
-import com.harry.winser.docker.secrets.DockerSecretsLoader;
+import io.metro.docker.secrets.DockerSecretsException;
+import io.metro.docker.secrets.DockerSecretsFileLoader;
+import io.metro.docker.secrets.DockerSecretsLoader;
 
 import java.util.*;
 import java.util.stream.Collectors;

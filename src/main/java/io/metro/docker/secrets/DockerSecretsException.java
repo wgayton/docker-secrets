@@ -1,4 +1,4 @@
-package com.harry.winser.docker.secrets;
+package io.metro.docker.secrets;
 
 
 public class DockerSecretsException extends RuntimeException {

@@ -1,4 +1,4 @@
-package com.harry.winser.docker.secrets.internal;
+package io.metro.docker.secrets.internal;
 
 
 import java.util.Objects;

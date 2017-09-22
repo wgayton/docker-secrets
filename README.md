@@ -84,3 +84,6 @@ on [twitter](https://twitter.com/Hazz223).
 
 ## Licence
 This is under the Apache 2.0 license. More info can be found [here](https://github.com/Hazz223/docker-secrets/blob/master/LICENSE.md)
+
+## Deploy
+```mvn clean package deploy clean```

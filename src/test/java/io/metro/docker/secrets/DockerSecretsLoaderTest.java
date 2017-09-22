@@ -1,4 +1,4 @@
-package com.harry.winser.docker.secrets;
+package io.metro.docker.secrets;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -13,7 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class DockerSecretsLoaderTest {
 
@@ -45,7 +47,7 @@ public class DockerSecretsLoaderTest {
 
         Map<String, String> actual = this.dockerSecretsLoader.loadAsMap();
 
-        assertThat(actual).isEqualTo(expected);
+        assertEquals(actual, expected);
     }
 
     @Test
@@ -55,7 +57,7 @@ public class DockerSecretsLoaderTest {
 
         Properties actual = this.dockerSecretsLoader.loadAsProperties();
 
-        assertThat(actual).containsAllEntriesOf(expected);
+        assertThat(actual, equalTo(expected));
     }
 
     private Map<String, String> givenTwoSecrets() throws IOException {

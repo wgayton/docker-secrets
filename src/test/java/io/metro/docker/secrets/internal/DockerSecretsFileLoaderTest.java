@@ -1,8 +1,6 @@
-package com.harry.winser.docker.secrets.internal;
+package io.metro.docker.secrets.internal;
 
-
-import com.harry.winser.docker.secrets.DockerSecretsException;
-import com.harry.winser.docker.secrets.DockerSecretsFileLoader;
+import io.metro.docker.secrets.DockerSecretsFileLoader;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,7 +13,7 @@ import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 public class DockerSecretsFileLoaderTest {
 
@@ -30,7 +28,7 @@ public class DockerSecretsFileLoaderTest {
     public void init() throws IOException {
 
         this.temporaryFolder.create();
-        this.dockerSecretsFileLoader = new DockerSecretsFileLoaderImpl();
+        this.dockerSecretsFileLoader = new io.metro.docker.secrets.internal.DockerSecretsFileLoaderImpl();
     }
 
     @Test
@@ -40,14 +38,14 @@ public class DockerSecretsFileLoaderTest {
 
         Set<File> actual = this.dockerSecretsFileLoader.loadSecretsDirectory(this.temporaryFolder.getRoot().getAbsolutePath());
 
-        assertThat(actual).isEqualTo(expected);
+        assertEquals(actual, expected);
     }
 
     @Test
     public void shouldThrowExceptionWhenDirectoryNotFound() {
 
         String secretsDir = "/some/random/dir";
-        this.expectedException.expect(DockerSecretsException.class);
+        this.expectedException.expect(io.metro.docker.secrets.DockerSecretsException.class);
         this.expectedException.expectMessage(String.format("Given secrets directory not found (%s). Will not load secrets", secretsDir));
         this.dockerSecretsFileLoader.loadSecretsDirectory(secretsDir);
     }
@@ -55,8 +53,8 @@ public class DockerSecretsFileLoaderTest {
     @Test
     public void shouldThrowExceptionWhenNoSecretsFoundInDirectory() {
 
-        this.expectedException.expect(DockerSecretsException.class);
-        this.expectedException.expectMessage(String.format("No files found for given secrets directory: " + this.temporaryFolder.getRoot().getAbsolutePath()));
+        this.expectedException.expect(io.metro.docker.secrets.DockerSecretsException.class);
+        this.expectedException.expectMessage("No files found for given secrets directory: " + this.temporaryFolder.getRoot().getAbsolutePath());
         this.dockerSecretsFileLoader.loadSecretsDirectory(this.temporaryFolder.getRoot().getAbsolutePath());
 
     }
