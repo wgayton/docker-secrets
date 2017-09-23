@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public class DockerSecretsLoader {
@@ -18,11 +19,10 @@ public class DockerSecretsLoader {
     public static String replace(String key) {
         String nKey = key;
         String regex;
-        String[] profiles = {"docker", "local", "stage", "production", "DOCKER", "LOCAL", "STAGE", "PRODUCTION"};
+        String[] profiles = {"docker_", "local_", "stage_", "production_"};
 
         for(String profile : profiles) {
-            regex = profile + "_";
-            nKey = nKey.replaceFirst(regex, "");
+            nKey = nKey.replaceFirst(profile, "").replaceFirst(profile.toUpperCase(), "");
         }
 
         return nKey;
@@ -41,17 +41,19 @@ public class DockerSecretsLoader {
                 LOG.debug("Failed to load secrets resource", ex.getCause());
             }
         }
-        Map<String, String> secrets = null;
+
+        Map<String, String> secrets = new HashMap<>();
         if(secretsDirectoryExists) {
             LOG.debug("Fetching secrets from: " + secretsDirectory.toString());
             try {
-                secrets = DockerSecretsLoaderBuilder
+                Map<String, String> _secrets = DockerSecretsLoaderBuilder
                         .builder()
                         .withSecretFolder(secretsDirectory.getAbsolutePath())
                         .build()
                         .loadAsMap();
 
-                for (Map.Entry<String, String> entry : secrets.entrySet()) {
+                for (Map.Entry<String, String> entry : _secrets.entrySet()) {
+                    secrets.put(replace(entry.getKey()), entry.getValue());
                     LOG.debug("Setting secret: {} = {}", replace(entry.getKey()), entry.getValue());
                 }
 
