@@ -36,13 +36,13 @@ public class DockerSecretsLoader {
                 secretsDirectory = Paths.get(DockerSecretsLoader.class.getResource("/run/secrets/").toURI()).toFile();
                 secretsDirectoryExists = secretsDirectory.exists();
             } catch (URISyntaxException | NullPointerException ex) {
-                LOG.debug("Failed to load secrets resource", ex.getCause());
+                LOG.info("Failed to load secrets resource", ex.getCause());
             }
         }
 
         Map<String, String> secrets = new HashMap<>();
         if(secretsDirectoryExists) {
-            LOG.debug("Fetching secrets from: " + secretsDirectory.toString());
+            LOG.info("Fetching secrets from: " + secretsDirectory.toString());
             try {
                 Map<String, String> _secrets = DockerSecretsLoaderBuilder
                         .builder()
@@ -52,7 +52,7 @@ public class DockerSecretsLoader {
 
                 for (Map.Entry<String, String> entry : _secrets.entrySet()) {
                     secrets.put(replace(entry.getKey()), entry.getValue());
-                    LOG.trace("Setting secret: {} = {}", replace(entry.getKey()), entry.getValue());
+                    LOG.debug("Setting secret: {} = {}", replace(entry.getKey()), entry.getValue());
                 }
 
                 setEnv(secrets);
