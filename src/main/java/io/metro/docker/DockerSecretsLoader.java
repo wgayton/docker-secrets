@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DockerSecretsLoader {
-    private static Logger LOG = LoggerFactory.getLogger(DockerSecretsLoader.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DockerSecretsLoader.class);
 
     public static String replace(String key) {
         String[] profiles = {"docker_", "local_", "stage_", "production_"};
@@ -52,7 +52,7 @@ public class DockerSecretsLoader {
 
                 for (Map.Entry<String, String> entry : _secrets.entrySet()) {
                     secrets.put(replace(entry.getKey()), entry.getValue());
-                    LOG.debug("Setting secret: {} = {}", replace(entry.getKey()), entry.getValue());
+                    LOG.trace("Setting secret: {} = {}", replace(entry.getKey()), entry.getValue());
                 }
 
                 setEnv(secrets);
