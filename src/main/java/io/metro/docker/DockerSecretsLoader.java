@@ -18,7 +18,7 @@ public class DockerSecretsLoader {
     public static String replace(String key) {
         String nKey = key;
         String regex;
-        String[] profiles = {"docker", "local", "stage", "production"};
+        String[] profiles = {"docker", "local", "stage", "production", "DOCKER", "LOCAL", "STAGE", "PRODUCTION"};
 
         for(String profile : profiles) {
             regex = profile + "_";
