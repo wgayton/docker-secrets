@@ -17,15 +17,13 @@ public class DockerSecretsLoader {
     private static Logger LOG = LoggerFactory.getLogger(DockerSecretsLoader.class);
 
     public static String replace(String key) {
-        String nKey = key;
-        String regex;
         String[] profiles = {"docker_", "local_", "stage_", "production_"};
 
         for(String profile : profiles) {
-            nKey = nKey.replaceFirst(profile, "").replaceFirst(profile.toUpperCase(), "");
+            key = key.replaceFirst(profile, "").replaceFirst(profile.toUpperCase(), "");
         }
 
-        return nKey;
+        return key;
     }
 
     public static Map<String, String> loadSecrets() {
