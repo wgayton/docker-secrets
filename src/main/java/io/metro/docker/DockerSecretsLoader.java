@@ -51,7 +51,6 @@ public class DockerSecretsLoader {
                 for (Map.Entry<String, String> entry : _secrets.entrySet()) {
                     System.setProperty(replace(entry.getKey()), entry.getValue());
                     secrets.put(replace(entry.getKey()), entry.getValue());
-                    LOG.debug("Setting secret: {} = {}", replace(entry.getKey()), entry.getValue());
                 }
             } catch (DockerSecretsException ex) {
                 LOG.warn("Could not load secrets:", ex);
