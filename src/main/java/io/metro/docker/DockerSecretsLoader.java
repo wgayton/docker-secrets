@@ -6,10 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,48 +53,11 @@ public class DockerSecretsLoader {
                     secrets.put(replace(entry.getKey()), entry.getValue());
                     LOG.debug("Setting secret: {} = {}", replace(entry.getKey()), entry.getValue());
                 }
-
-//                setEnv(secrets);
             } catch (DockerSecretsException ex) {
                 LOG.warn("Could not load secrets:", ex);
             }
         }
 
         return secrets;
-    }
-
-    private static void setEnv(Map<String, String> newEnv) {
-        try
-        {
-            Class<?> envClass = Class.forName("java.lang.ProcessEnvironment");
-            Field caseSensitiveEnvironment = envClass.getDeclaredField("caseSensitiveEnvironment");
-            caseSensitiveEnvironment.setAccessible(true);
-            ((Map<String, String>) caseSensitiveEnvironment.get(null)).putAll(newEnv);
-
-            Field caseInsensitiveEnvironmentField = envClass.getDeclaredField("caseInsensitiveEnvironmentField");
-            caseInsensitiveEnvironmentField.setAccessible(true);
-            ((Map<String, String>) caseInsensitiveEnvironmentField.get(null)).putAll(newEnv);
-        }
-        catch (NoSuchFieldException e)
-        {
-            try {
-                Class[] classes = Collections.class.getDeclaredClasses();
-                Map<String, String> env = System.getenv();
-                for(Class cl : classes) {
-                    if("java.util.Collections$UnmodifiableMap".equals(cl.getName())) {
-                        Field field = cl.getDeclaredField("m");
-                        field.setAccessible(true);
-                        Object obj = field.get(env);
-                        Map<String, String> map = (Map<String, String>) obj;
-                        map.clear();
-                        map.putAll(newEnv);
-                    }
-                }
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
     }
 }
