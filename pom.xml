@@ -70,12 +70,14 @@
 
     <distributionManagement>
         <repository>
-            <id>aws-release</id>
-            <url>s3://metro-maven/release</url>
+            <id>metro.central</id>
+            <name>ip-172-31-10-162-releases</name>
+            <url>http://ec2-174-129-71-214.compute-1.amazonaws.com/artifactory/metrolabs</url>
         </repository>
         <snapshotRepository>
-            <id>aws-snapshot</id>
-            <url>s3://metro-maven/snapshot</url>
+            <id>metro.snapshots</id>
+            <name>ip-172-31-10-162-snapshots</name>
+            <url>http://ec2-174-129-71-214.compute-1.amazonaws.com/artifactory/metrolabs</url>
         </snapshotRepository>
     </distributionManagement>
 
