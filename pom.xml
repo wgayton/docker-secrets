@@ -109,9 +109,7 @@
         <name>Metro Labs LLC</name>
         <url>http://metrolabs.io/</url>
     </organization>
-
     <inceptionYear>2016</inceptionYear>
-
     <developers>
         <developer>
             <id>metro.io</id>
