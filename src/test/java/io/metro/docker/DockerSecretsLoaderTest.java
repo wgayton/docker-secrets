@@ -1,6 +1,8 @@
 package io.metro.docker;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -9,6 +11,7 @@ import java.util.Map;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
+@RunWith(SpringRunner.class)
 public class DockerSecretsLoaderTest {
     @Test
     public void loadSecrets() throws URISyntaxException, IOException {
