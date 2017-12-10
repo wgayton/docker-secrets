@@ -61,12 +61,12 @@
         <repository>
             <id>metro.central</id>
             <name>ip-172-31-10-162-releases</name>
-            <url>http://ec2-174-129-71-214.compute-1.amazonaws.com/artifactory/metrolabs</url>
+            <url>https://maven.pivotenergy.io/artifactory/metrolabs</url>
         </repository>
         <snapshotRepository>
             <id>metro.snapshots</id>
             <name>ip-172-31-10-162-snapshots</name>
-            <url>http://ec2-174-129-71-214.compute-1.amazonaws.com/artifactory/metrolabs</url>
+            <url>https://maven.pivotenergy.io/artifactory/metrolabs</url>
         </snapshotRepository>
     </distributionManagement>
 

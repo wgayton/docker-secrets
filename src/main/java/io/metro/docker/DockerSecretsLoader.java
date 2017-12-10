@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +32,7 @@ public class DockerSecretsLoader {
             try {
                 secretsDirectory = Paths.get(DockerSecretsLoader.class.getResource("/run/secrets/").toURI()).toFile();
                 secretsDirectoryExists = secretsDirectory.exists();
-            } catch (URISyntaxException | NullPointerException ex) {
+            } catch (Exception ex) {
                 LOG.info("Failed to load secrets resource", ex.getCause());
             }
         }
