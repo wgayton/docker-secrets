@@ -25,6 +25,11 @@ public class DockerSecretsLoader {
 
     public static Map<String, String> loadSecrets() {
         String directory = "/run/secrets/";
+
+        return loadSecrets(directory);
+    }
+
+    public static Map<String, String> loadSecrets(String directory) {
         File secretsDirectory = new File(directory);
         boolean secretsDirectoryExists = secretsDirectory.exists();
 
