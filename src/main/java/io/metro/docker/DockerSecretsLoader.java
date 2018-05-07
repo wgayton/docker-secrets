@@ -14,7 +14,7 @@ public class DockerSecretsLoader {
     private static final Logger LOG = LoggerFactory.getLogger(DockerSecretsLoader.class);
 
     public static String replace(String key) {
-        String[] profiles = {"docker_", "local_", "stage_", "production_"};
+        String[] profiles = {"docker_", "local_", "stage_", "production_", "prod_", "development_", "dev_"};
 
         for(String profile : profiles) {
             key = key.replaceFirst(profile, "").replaceFirst(profile.toUpperCase(), "");
@@ -35,7 +35,7 @@ public class DockerSecretsLoader {
 
         if(!secretsDirectoryExists) {
             try {
-                secretsDirectory = Paths.get(DockerSecretsLoader.class.getResource("/run/secrets/").toURI()).toFile();
+                secretsDirectory = Paths.get(DockerSecretsLoader.class.getResource(directory).toURI()).toFile();
                 secretsDirectoryExists = secretsDirectory.exists();
             } catch (Exception ex) {
                 LOG.info("Failed to load secrets resource", ex.getCause());
